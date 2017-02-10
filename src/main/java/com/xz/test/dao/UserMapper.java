@@ -5,20 +5,21 @@ import java.util.List;
 import com.xz.test.model.User;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(String username);
+	int deleteByPrimaryKey(String username);
 
-    int insert(User record);
+	int insert(User record);
 
-    int insertSelective(User record);
+	int insertSelective(User record);
 
-    User selectByPrimaryKey(String username);
+	User selectByPrimaryKey(String username);
 
-    int updateByPrimaryKeySelective(User record);
+	int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
+	int updateByPrimaryKey(User record);
 
 	/**
 	 * TODO
+	 * 
 	 * @return
 	 */
 	List<User> findAll();
