@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xz.upload.dao.PathMapper" >
+  <resultMap id="BaseResultMap" type="com.xz.upload.model.Path" >
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="md5" property="md5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    path, md5
+  </sql>
+  <insert id="insert" parameterType="com.xz.upload.model.Path" >
+    insert into path (path, md5)
+    values (#{path,jdbcType=VARCHAR}, #{md5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xz.upload.model.Path" >
+    insert into path
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="md5 != null" >
+        md5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null" >
+        #{md5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="getPathBymd5" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from path
+    where md5 = #{md5,jdbcType=VARCHAR}
+  </select>
+</mapper>

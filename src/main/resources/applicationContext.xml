@@ -13,7 +13,7 @@
 	<!-- 引入dbconfig.properties属性文件 -->
 	<context:property-placeholder location="classpath:db.properties" />
 	<!-- 自动扫描(自动注入)，扫描wei.jiang.ssmdemo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
-	<context:component-scan base-package="com.xz.test.service" />
+	<context:component-scan base-package="com.xz.*.service" />
 
 
 	<!-- 数据源，使用dbcp -->
@@ -54,13 +54,13 @@
 		<property name="dataSource" ref="dataSource" />
 		<!-- <property name="configLocation" value="classpath:mybatis-config.xml" 
 			/> -->
-		<property name="mapperLocations" value="classpath:com/xz/test/mapping/*.xml" />
+		<property name="mapperLocations" value="classpath:com/xz/*/mapping/*.xml" />
 	</bean>
 
 	<!-- 配置扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 扫描cn.touna.mybatisdemo.dao这个包以及它的子包下的所有映射接口类 -->
-		<property name="basePackage" value="com.xz.test.dao" />
+		<property name="basePackage" value="com.xz.*.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 	<!-- ========================================分隔线========================================= -->
@@ -97,7 +97,7 @@
 	</tx:advice>
 	<aop:config>
 		<aop:pointcut id="transactionPointcut"
-			expression="execution(* com.xz.test.service..*Impl.*(..))" />
+			expression="execution(* com.xz.*.service..*Impl.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
 	</aop:config>

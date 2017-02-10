@@ -28,8 +28,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.xz.upload.model.Path;
+import com.xz.upload.service.UploadService;
 
 /**
  * 用webupload上传文件
@@ -45,7 +49,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/upload")
 public class UploadController {
 
+	@Autowired
+	private UploadService uploadService;
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UploadController.class);
+	
 	private static final String PATH = "F:\\download\\";
 
 	/**
@@ -213,6 +221,12 @@ public class UploadController {
 	@RequestMapping("/checkChunk")
 	public String checkChunk(HttpServletRequest request, HttpServletResponse response, String action, String fileMd5, String chunk, String chunkSize, String ext)
 			throws IOException {
+		//如果文件上传过  直接提示上传成功 实现文件秒传
+		Path p = uploadService.getPathBymd5(fileMd5);
+		if (null != p && fileMd5.equals(p.getMd5())) {
+			response.getWriter().write("{\"ifExist\":1}");
+		}
+		
 		if (action.equals("mergeChunks")) {
 			// 合并文件
 
@@ -241,8 +255,8 @@ public class UploadController {
 					return 1;
 				}
 			});
-
-			File outputFile = new File(PATH + UUID.randomUUID().toString() + "." + ext);
+			String filePath = PATH + UUID.randomUUID().toString() + "." + ext;
+			File outputFile = new File(filePath);
 			// 创建文件
 			outputFile.createNewFile();
 			// 输出流
@@ -263,7 +277,10 @@ public class UploadController {
 			if (tempFile.isDirectory() && tempFile.exists()) {
 				tempFile.delete();
 			}
-
+			Path path = new Path();
+			path.setMd5(fileMd5);
+			path.setPath(filePath);
+			uploadService.inseterPath(path);
 			LOGGER.info("合并成功");
 		} else if (action.equals("checkChunk")) {
 			// 检查当前分块是否上传成功
