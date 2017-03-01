@@ -19,8 +19,7 @@
 	<mvc:resources location="/swf/" mapping="/swf/**" />
 	<!-- <mvc:resources mapping="/js/**" location="/js/" /> -->
 	<!-- 设置使用注解的类所在的jar包 -->
-	<context:component-scan
-		base-package="com.xz.test.controller com.xz.upload.controller"></context:component-scan>
+	<context:component-scan base-package="com.xz.*.controller"></context:component-scan>
 
 	<!-- 完成请求和注解POJO的映射 -->
 	<bean
