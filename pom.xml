@@ -204,8 +204,8 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.htmlparser.jericho/jericho-html -->
 		<dependency>
-			<groupId>jericho-html</groupId>
-			<artifactId>jericho</artifactId>
+			<groupId>net.htmlparser.jericho</groupId>
+			<artifactId>jericho-html</artifactId>
 			<version>3.4</version>
 		</dependency>
 	</dependencies>
