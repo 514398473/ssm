@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.xz.test.dao.UserMapper;
 import com.xz.test.model.User;
+import com.xz.test.model.UserExample;
 import com.xz.test.service.UserService;
 
 /**
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 
 	public List<User> findUsers() {
-		return userMapper.findAll();
+		return userMapper.selectByExample(new UserExample());
 	}
 
 }

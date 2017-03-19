@@ -3,11 +3,16 @@
  */
 package com.xz.upload.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xz.upload.dao.PathMapper;
 import com.xz.upload.model.Path;
+import com.xz.upload.model.PathExample;
+import com.xz.upload.model.PathExample.Criteria;
 import com.xz.upload.service.UploadService;
 
 /**
@@ -44,7 +49,14 @@ public class UploadServiceImpl implements UploadService {
 	  */
 	@Override
 	public Path getPathBymd5(String fileMd5) {
-		return pathMapper.getPathBymd5(fileMd5);
+		PathExample pathExample = new PathExample();
+		Criteria criteria = pathExample.createCriteria();
+		criteria.andMd5EqualTo(fileMd5);
+		List<Path> pathList = pathMapper.selectByExample(pathExample);
+		if (CollectionUtils.isNotEmpty(pathList)) {
+			return pathList.get(0);
+		}
+		return null;
 	}
 
 }

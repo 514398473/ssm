@@ -36,7 +36,7 @@ public class UserController {
 	
 	@RequestMapping("/list")
 	public ModelAndView list(Model model) {
-		ModelAndView mav = new ModelAndView("user_list");
+		ModelAndView mav = new ModelAndView("test/user_list");
 		List<User> userList = userService.findUsers();
 		mav.addObject("userList", userList);
 		model.addAttribute("userList", userList);

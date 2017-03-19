@@ -1,26 +1,31 @@
 package com.xz.test.dao;
 
-import java.util.List;
-
 import com.xz.test.model.User;
+import com.xz.test.model.UserExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
-	int deleteByPrimaryKey(String username);
+    int countByExample(UserExample example);
 
-	int insert(User record);
+    int deleteByExample(UserExample example);
 
-	int insertSelective(User record);
+    int deleteByPrimaryKey(Integer id);
 
-	User selectByPrimaryKey(String username);
+    int insert(User record);
 
-	int updateByPrimaryKeySelective(User record);
+    int insertSelective(User record);
 
-	int updateByPrimaryKey(User record);
+    List<User> selectByExample(UserExample example);
 
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	List<User> findAll();
+    User selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByPrimaryKeySelective(User record);
+
+    int updateByPrimaryKey(User record);
+
 }

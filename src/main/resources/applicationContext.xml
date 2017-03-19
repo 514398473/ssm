@@ -10,18 +10,18 @@
     http://www.springframework.org/schema/aop/spring-aop.xsd
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx.xsd">
-    
-    <!-- 导入其他配置文件 -->
-    <import resource="applicationContext-*.xml"/>
-    
+
+	<!-- 导入其他配置文件 -->
+	<import resource="applicationContext-*.xml" />
+
 	<!-- 引入dbconfig.properties属性文件 -->
 	<context:property-placeholder location="classpath:*.properties" />
 	<!-- 自动扫描(自动注入)，扫描wei.jiang.ssmdemo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
 	<context:component-scan base-package="com.xz.*.service" />
 
 
-	<!-- 数据源，使用dbcp -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<!-- 数据源，使用druid -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${driver}" />
 		<property name="url" value="${url}" />
@@ -32,7 +32,7 @@
 		<!--minIdle: 最小空闲连接 -->
 		<property name="minIdle" value="${touna.minIdle}" />
 		<!--maxIdle: 最大空闲连接 -->
-		<property name="maxIdle" value="${touna.maxIdle}" />
+		<!-- <property name="maxIdle" value="${touna.maxIdle}" /> -->
 		<!--initialSize: 初始化连接 -->
 		<property name="initialSize" value="${touna.initialSize}" />
 		<!-- 连接被泄露时是否打印 -->
@@ -53,14 +53,14 @@
 		<property name="validationQuery" value="SELECT NOW() FROM DUAL" />
 	</bean>
 	<!-- ========================================针对myBatis的配置项============================== -->
-	<!-- 配置sqlSessionFactory -->
+	<!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中的 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据库连接池 -->
 		<property name="dataSource" ref="dataSource" />
-		<!-- <property name="configLocation" value="classpath:mybatis-config.xml" 
-			/> -->
+		<!-- 加载mybatis的全局配置文件 -->
+		<property name="configLocation" value="classpath:SqlMapConfig.xml" />
 		<property name="mapperLocations" value="classpath:com/xz/*/mapping/*.xml" />
 	</bean>
-
 	<!-- 配置扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 扫描cn.touna.mybatisdemo.dao这个包以及它的子包下的所有映射接口类 -->
@@ -105,12 +105,4 @@
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
 	</aop:config>
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:mail.properties</value>
-			</list>
-		</property>
-	</bean>
 </beans>
