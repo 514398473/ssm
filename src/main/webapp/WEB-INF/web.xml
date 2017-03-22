@@ -2,6 +2,7 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<!-- 处理post乱码 -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -21,31 +22,19 @@
 	<welcome-file-list>
 		<welcome-file>/index.do</welcome-file>
 	</welcome-file-list>
-	<listener>
-		<description>Spring监听器</description>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<!-- ContextLoaderListener初始化Spring上下文时需要使用到的contextConfigLocation参数 -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<!-- 配置spring.xml和spring-mybatis.xml这两个配置文件的位置，固定写法 -->
-		<param-value>classpath:applicationContext.xml</param-value>
-	</context-param>
-	<!-- springMVC配置 -->
+	<!-- spring配置 -->
 	<servlet>
-		<servlet-name>springMVC</servlet-name>
+		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<!-- springMVC配置文件默认放在WEB-INF下，指定contextConfigLocation参数可以配置到其它路径 -->
+		<!-- spring配置文件默认放在WEB-INF下，指定contextConfigLocation参数可以配置到其它路径 -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:springMVC-servlet.xml</param-value>
+			<param-value>classpath:applicationContext-*.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<!-- <servlet-mapping> <servlet-name>springMVC</servlet-name> <url-pattern>/</url-pattern> 
-		</servlet-mapping> -->
 	<servlet-mapping>
-		<servlet-name>springMVC</servlet-name>
+		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- log4j配置 -->

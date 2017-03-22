@@ -11,17 +11,8 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<!-- 导入其他配置文件 -->
-	<import resource="applicationContext-*.xml" />
-
-	<!-- 引入dbconfig.properties属性文件 -->
+	<!-- 引入所有properties属性文件 -->
 	<context:property-placeholder location="classpath:*.properties" />
-	<!-- 自动扫描(自动注入)，扫描wei.jiang.ssmdemo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
-	<context:component-scan base-package="com.xz.*.service" />
-
-	<!-- 注入爬虫用到的service -->
-	<bean id="crawlerService" class="com.xz.crawler.service.impl.CrawlerServiceImpl"></bean>
-	<bean id="urlmd5Service" class="com.xz.crawler.service.impl.Urlmd5ServiceImpl"></bean>
 
 	<!-- 数据源，使用druid -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
@@ -70,42 +61,5 @@
 		<property name="basePackage" value="com.xz.*.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
-	<!-- ========================================分隔线========================================= -->
-	<!-- 配置Spring的事务管理器 -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
 
-	<!-- 注解方式配置事物 -->
-	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
-	<!-- 拦截器方式配置事物 -->
-	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="add*" propagation="REQUIRED" />
-			<tx:method name="append*" propagation="REQUIRED" />
-			<tx:method name="insert*" propagation="REQUIRED" />
-			<tx:method name="save*" propagation="REQUIRED" />
-			<tx:method name="update*" propagation="REQUIRED" />
-			<tx:method name="modify*" propagation="REQUIRED" />
-			<tx:method name="edit*" propagation="REQUIRED" />
-			<tx:method name="delete*" propagation="REQUIRED" />
-			<tx:method name="remove*" propagation="REQUIRED" />
-			<tx:method name="repair" propagation="REQUIRED" />
-			<tx:method name="delAndRepair" propagation="REQUIRED" />
-			<tx:method name="get*" propagation="SUPPORTS" />
-			<tx:method name="find*" propagation="SUPPORTS" />
-			<tx:method name="load*" propagation="SUPPORTS" />
-			<tx:method name="search*" propagation="SUPPORTS" />
-			<tx:method name="datagrid*" propagation="SUPPORTS" />
-
-			<tx:method name="*" propagation="SUPPORTS" />
-		</tx:attributes>
-	</tx:advice>
-	<aop:config>
-		<aop:pointcut id="transactionPointcut"
-			expression="execution(* com.xz.*.service..*Impl.*(..))" />
-		<aop:advisor pointcut-ref="transactionPointcut"
-			advice-ref="transactionAdvice" />
-	</aop:config>
 </beans>

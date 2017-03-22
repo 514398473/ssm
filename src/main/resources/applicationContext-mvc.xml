@@ -10,14 +10,11 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/mvc  
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
 	<!-- 开启spring mvc注解 -->
 	<mvc:annotation-driven></mvc:annotation-driven>
-	<!-- 静态资源访问 -->
-	<mvc:resources location="/img/" mapping="/img/**" />
-	<mvc:resources location="/js/" mapping="/js/**" />
-	<mvc:resources location="/css/" mapping="/css/**" />
-	<mvc:resources location="/swf/" mapping="/swf/**" />
-	<!-- <mvc:resources mapping="/js/**" location="/js/" /> -->
+	<!-- 静态资源默认servlet配置 (1)加入对静态资源的处理：js,gif,png (2)允许使用"/"做整体映射 -->
+	<mvc:default-servlet-handler />
 	<!-- 设置使用注解的类所在的jar包 -->
 	<context:component-scan base-package="com.xz.*.controller"></context:component-scan>
 
@@ -42,17 +39,10 @@
 			</list>
 		</property>
 	</bean>
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="jsonConverter" />
-			</list>
-		</property>
-	</bean>
 	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
