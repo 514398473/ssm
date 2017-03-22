@@ -236,12 +236,6 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/net.htmlparser.jericho/jericho-html -->
-		<dependency>
-			<groupId>net.htmlparser.jericho</groupId>
-			<artifactId>jericho-html</artifactId>
-			<version>3.4</version>
-		</dependency>
 		<!-- 爬虫依赖 -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -262,12 +256,12 @@
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		 <!-- 默认源代码和资源文件目录配置 -->  
-        <sourceDirectory>src/main/java</sourceDirectory>  
-        <resources>
-            <resource>  
-                <directory>src/main/resources</directory>  
-            </resource> 
+		<!-- 默认源代码和资源文件目录配置 -->
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>

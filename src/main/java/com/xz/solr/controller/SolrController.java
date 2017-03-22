@@ -7,10 +7,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.HTMLElementName;
-import net.htmlparser.jericho.Source;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -20,12 +17,18 @@ import org.apache.solr.client.solrj.impl.CloudSolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.xz.crawler.model.Html;
+import com.xz.crawler.model.HtmlExample;
+import com.xz.crawler.service.CrawlerService;
 import com.xz.solr.model.Doc;
 import com.xz.solr.utils.PageUtil;
 
@@ -49,6 +52,9 @@ public class SolrController {
 	// 集群版solr
 	@Autowired
 	private CloudSolrServer cloudSolrServer;
+
+	@Autowired
+	private CrawlerService crawlerService;
 
 	private final String DATA_DIR = "F:\\www.bjsxt.com";
 
@@ -121,42 +127,72 @@ public class SolrController {
 	public String createIndex() throws Exception {
 
 		httpSolrServer.setMaxRetries(1);
-		httpSolrServer.setConnectionTimeout(5000);
+		httpSolrServer.setConnectionTimeout(1 * 60 * 1000);
 		httpSolrServer.setParser(new XMLResponseParser()); // binary parser is
 															// used by default
-		httpSolrServer.setSoTimeout(1000); // socket read timeout
+		httpSolrServer.setSoTimeout(1 * 60 * 1000); // socket read timeout
 		httpSolrServer.setDefaultMaxConnectionsPerHost(100);
 		httpSolrServer.setMaxTotalConnections(100);
 		httpSolrServer.setFollowRedirects(false); // defaults to false
 		httpSolrServer.setAllowCompression(true);
-		// ------------------------------------------------------
-		// remove all data
-		// ------------------------------------------------------
+		// 删除所有索引
 		httpSolrServer.deleteByQuery("*:*");
-
-		// ------------------------------------------------------
-		// add item
-		// ------------------------------------------------------
+		httpSolrServer.commit();
+		// 通过本地文件目录添加索引
 		Collection<File> files = FileUtils.listFiles(new File(DATA_DIR), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-		int i = 1;
+		int i = 0;
+		int j = 0;
 		for (File file : files) {
-			Source source = new Source(file);
-			Element title = source.getFirstElement(HTMLElementName.TITLE);
-			String content = source.getTextExtractor().toString();
+			Document document = Jsoup.parse(file, "UTF-8");
+			Element element = document.getElementsByTag("title").first();
+			String title = null;
+			if (null != element) {
+				title = element.text();
+			}
+			String content = document.text();
 			Doc doc = new Doc();
-			doc.setId(String.valueOf(i));
+			doc.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
 			if (StringUtils.isNotBlank(content)) {
 				doc.setContent(content);
 			}
 			if (null != title) {
-				doc.setTitle(title.getTextExtractor().toString());
+				doc.setTitle(title);
 			}
 			String path = file.getAbsolutePath();
 			doc.setUrl("http://" + path.substring(3));
 			httpSolrServer.addBean(doc);
 			i++;
+			j++;
+			if (i == 50) {
+				httpSolrServer.commit();
+				i = 0;
+			}
+			if (j == files.size()) {
+				httpSolrServer.commit();
+			}
 		}
-		httpSolrServer.commit();
+		// 通过从数据库查询数据 添加索引
+		HtmlExample example = new HtmlExample();
+		i = 0;
+		j = 0;
+		List<Html> selectByExampleWithBLOBs = crawlerService.selectByExampleWithBLOBs(example);
+		for (Html html : selectByExampleWithBLOBs) {
+			Doc doc = new Doc();
+			doc.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+			doc.setContent(html.getContent());
+			doc.setTitle(html.getContent());
+			doc.setUrl(html.getUrl());
+			i++;
+			j++;
+			httpSolrServer.addBean(doc);
+			if (i == 50) {
+				httpSolrServer.commit();
+				i = 0;
+			}
+			if (j == selectByExampleWithBLOBs.size()) {
+				httpSolrServer.commit();
+			}
+		}
 		return "solr/search";
 	}
 }
