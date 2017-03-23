@@ -21,18 +21,19 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.xz.base.controller.BaseController;
 import com.xz.upload.model.Path;
+import com.xz.upload.model.PathExample;
 import com.xz.upload.service.UploadService;
 
 /**
@@ -47,13 +48,11 @@ import com.xz.upload.service.UploadService;
 
 @Controller
 @RequestMapping("/upload")
-public class UploadController {
+public class UploadController extends BaseController {
 
 	@Autowired
 	private UploadService uploadService;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UploadController.class);
-	
+
 	private static final String PATH = "F:\\download\\";
 
 	/**
@@ -107,11 +106,11 @@ public class UploadController {
 					// 解决普通输入项的数据的中文乱码问题
 					String value = item.getString("UTF-8");
 					// value = new String(value.getBytes("iso8859-1"),"UTF-8");
-					LOGGER.info(name + "=" + value);
+					logger.info(name + "=" + value);
 				} else {// 如果fileitem中封装的是上传文件
 					// 得到上传的文件名称，
 					String filename = item.getName();
-					LOGGER.info(filename);
+					logger.info(filename);
 					if (filename == null || filename.trim().equals("")) {
 						continue;
 					}
@@ -122,12 +121,12 @@ public class UploadController {
 					// 得到上传文件的扩展名
 					String fileExtName = filename.substring(filename.lastIndexOf(".") + 1);
 					// 如果需要限制上传的文件类型，那么可以通过文件的扩展名来判断上传的文件类型是否合法
-					LOGGER.info("上传的文件的扩展名是：" + fileExtName);
+					logger.info("上传的文件的扩展名是：" + fileExtName);
 					// 获取item中的上传文件的输入流
 					InputStream in = item.getInputStream();
 					// 保存文件
 					FileUtils.copyInputStreamToFile(in, new File(PATH + makeFileName(filename)));
-					LOGGER.info("上传成功");
+					logger.info("上传成功");
 				}
 			}
 		} catch (FileUploadException e1) {
@@ -166,22 +165,22 @@ public class UploadController {
 					if (fieldName.equals("info")) {
 						// 获取文件信息
 						String info = item.getString("utf-8");
-						LOGGER.info(info);
+						logger.info(info);
 					}
 					if (fieldName.equals("fileMd5")) {
 						// 获取文件信息
 						fileMd5 = item.getString("utf-8");
-						LOGGER.info(fileMd5);
+						logger.info(fileMd5);
 					}
 					if (fieldName.equals("chunk")) {
 						// 获取文件信息
 						chunk = item.getString("utf-8");
-						LOGGER.info(chunk);
+						logger.info(chunk);
 					}
 					if (fieldName.equals("chunkSize")) {
 						// 获取文件信息
 						chunkSize = item.getString("utf-8");
-						LOGGER.info(chunkSize);
+						logger.info(chunkSize);
 					}
 				} else {
 					// 保存分块文件
@@ -221,12 +220,18 @@ public class UploadController {
 	@RequestMapping("/checkChunk")
 	public String checkChunk(HttpServletRequest request, HttpServletResponse response, String action, String fileMd5, String chunk, String chunkSize, String ext)
 			throws IOException {
-		//如果文件上传过  直接提示上传成功 实现文件秒传
-		Path p = uploadService.getPathBymd5(fileMd5);
+		// 如果文件上传过 直接提示上传成功 实现文件秒传
+		PathExample example = new PathExample();
+		example.createCriteria().andMd5EqualTo(fileMd5);
+		List<Path> pathList = uploadService.selectByExample(example);
+		Path p = null;
+		if (CollectionUtils.isNotEmpty(pathList)) {
+			p = pathList.get(0);
+		}
 		if (null != p && fileMd5.equals(p.getMd5())) {
 			response.getWriter().write("{\"ifExist\":1}");
 		}
-		
+
 		if (action.equals("mergeChunks")) {
 			// 合并文件
 
@@ -280,8 +285,8 @@ public class UploadController {
 			Path path = new Path();
 			path.setMd5(fileMd5);
 			path.setPath(filePath);
-			uploadService.inseterPath(path);
-			LOGGER.info("合并成功");
+			uploadService.insert(path);
+			logger.info("合并成功");
 		} else if (action.equals("checkChunk")) {
 			// 检查当前分块是否上传成功
 

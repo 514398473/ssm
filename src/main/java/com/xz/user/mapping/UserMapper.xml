@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xz.test.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.xz.test.model.User" >
+<mapper namespace="com.xz.user.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.xz.user.model.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -67,7 +67,7 @@
   <sql id="Base_Column_List" >
     id, username, password
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xz.test.model.UserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xz.user.model.UserExample" >
     select
     <if test="distinct" >
       distinct
@@ -91,19 +91,19 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.xz.test.model.UserExample" >
+  <delete id="deleteByExample" parameterType="com.xz.user.model.UserExample" >
     delete from user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xz.test.model.User" >
+  <insert id="insert" parameterType="com.xz.user.model.User" >
     insert into user (id, username, password
       )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xz.test.model.User" >
+  <insert id="insertSelective" parameterType="com.xz.user.model.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -128,7 +128,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xz.test.model.UserExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.xz.user.model.UserExample" resultType="java.lang.Integer" >
     select count(*) from user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -160,7 +160,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xz.test.model.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.xz.user.model.User" >
     update user
     <set >
       <if test="username != null" >
@@ -172,7 +172,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xz.test.model.User" >
+  <update id="updateByPrimaryKey" parameterType="com.xz.user.model.User" >
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR}

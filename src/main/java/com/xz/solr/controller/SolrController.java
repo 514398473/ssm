@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.xz.base.controller.BaseController;
 import com.xz.crawler.model.Html;
 import com.xz.crawler.model.HtmlExample;
 import com.xz.crawler.service.CrawlerService;
@@ -43,7 +44,7 @@ import com.xz.solr.utils.PageUtil;
  */
 @Controller
 @RequestMapping("/solr")
-public class SolrController {
+public class SolrController extends BaseController{
 
 	// 单机版solr
 	@Autowired

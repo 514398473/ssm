@@ -1,7 +1,7 @@
 /**
  * Copyright © 1998-2017, Glodon Inc. All Rights Reserved.
  */
-package com.xz.test.controller;
+package com.xz.user.controller;
 
 import java.util.List;
 
@@ -13,8 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xz.test.model.User;
-import com.xz.test.service.UserService;
+import com.xz.base.controller.BaseController;
+import com.xz.user.model.User;
+import com.xz.user.model.UserExample;
+import com.xz.user.service.UserService;
 
 /**
  * 此处填写类简介
@@ -27,19 +29,19 @@ import com.xz.test.service.UserService;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-	
+
 	@RequestMapping("/list")
 	public ModelAndView list(Model model) {
 		ModelAndView mav = new ModelAndView("test/user_list");
-		List<User> userList = userService.findUsers();
+		UserExample example = new UserExample();
+		List<User> userList = userService.selectByExample(example);
+		// List<User> userList = userService.findUsers();
+		logger.info("查询数据成功!-class:" + UserController.class.getSimpleName() + " method:list");
 		mav.addObject("userList", userList);
-		model.addAttribute("userList", userList);
 		return mav;
 	}
 }

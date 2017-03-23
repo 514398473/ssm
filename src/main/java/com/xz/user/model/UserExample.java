@@ -1,4 +1,4 @@
-package com.xz.test.model;
+package com.xz.user.model;
 
 import java.util.ArrayList;
 import java.util.List;

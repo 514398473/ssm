@@ -1,4 +1,4 @@
-package com.xz.test.model;
+package com.xz.user.model;
 
 public class User {
     private Integer id;

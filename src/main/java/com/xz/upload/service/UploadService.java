@@ -3,7 +3,9 @@
  */
 package com.xz.upload.service;
 
+import com.xz.base.service.BaseService;
 import com.xz.upload.model.Path;
+import com.xz.upload.model.PathExample;
 
 /**
  * 文件上传Service
@@ -15,14 +17,6 @@ import com.xz.upload.model.Path;
  * @since jdk1.6 2017年2月10日
  */
 
-public interface UploadService {
+public interface UploadService extends BaseService<Path, PathExample, Integer>{
 
-	boolean inseterPath(Path path);
-
-	/**
-	 * TODO
-	 * @param fileMd5
-	 * @return
-	 */
-	Path getPathBymd5(String fileMd5);
 }

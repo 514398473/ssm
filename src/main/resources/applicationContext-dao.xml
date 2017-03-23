@@ -12,7 +12,7 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!-- 引入所有properties属性文件 -->
-	<context:property-placeholder location="classpath:*.properties" />
+	<context:property-placeholder location="classpath*:*.properties" />
 
 	<!-- 数据源，使用druid -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
@@ -53,7 +53,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<!-- 加载mybatis的全局配置文件 -->
 		<property name="configLocation" value="classpath:SqlMapConfig.xml" />
-		<property name="mapperLocations" value="classpath:com/xz/*/mapping/*.xml" />
+		<property name="mapperLocations" value="classpath*:com/xz/*/mapping/*.xml" />
 	</bean>
 	<!-- 配置扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

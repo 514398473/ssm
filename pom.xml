@@ -234,7 +234,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
-			<scope>test</scope>
+			<!-- <scope>test</scope> -->
 		</dependency>
 		<!-- 爬虫依赖 -->
 		<dependency>
@@ -311,10 +311,10 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<port>8080</port>
+					<port>9000</port>
 					<path>/ssm</path>
 					<uriEncoding>UTF-8</uriEncoding>
-					<finalName>mgr</finalName>
+					<finalName>${project.artifactId}</finalName>
 					<server>tomcat7</server>
 				</configuration>
 			</plugin>

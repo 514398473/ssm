@@ -66,8 +66,9 @@
   <sql id="Base_Column_List" >
     id, md5
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xz.crawler.model.Urlmd5Example" >
-    select
+  <select id="selectByExample" resultMap="BaseResultMap"
+	parameterType="com.xz.crawler.model.Urlmd5Example">
+	select
     <if test="distinct" >
       distinct
     </if>
