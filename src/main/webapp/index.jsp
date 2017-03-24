@@ -4,8 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>欢迎界面</title>
 </head>
 <body>
+	<h1 align="center">Welcome to you!</h1>
 </body>
 </html>

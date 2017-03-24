@@ -5,8 +5,6 @@ package com.xz.user.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +34,9 @@ public class UserController extends BaseController {
 
 	@RequestMapping("/list")
 	public ModelAndView list(Model model) {
-		ModelAndView mav = new ModelAndView("test/user_list");
+		ModelAndView mav = new ModelAndView("user/user_list");
 		UserExample example = new UserExample();
 		List<User> userList = userService.selectByExample(example);
-		// List<User> userList = userService.findUsers();
 		logger.info("查询数据成功!-class:" + UserController.class.getSimpleName() + " method:list");
 		mav.addObject("userList", userList);
 		return mav;
