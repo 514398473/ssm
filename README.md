@@ -12,3 +12,7 @@
 5.user包 一个用来测试spring + springMVC + mybatis + mysql的环境是否搭建成功.
 
 6.upload包 一个用百度的webupload组件做的类似于百度云盘的上传,有拖拽上传,断点续传,大文件秒传等功能.
+
+7.base包 一个用于基础类的包,如baseDao,baseService.
+
+8.crawler包 一个用于生成二维码的包,有生成普通二维码、生成带logo和描述的二维码、解析二维码的功能.
