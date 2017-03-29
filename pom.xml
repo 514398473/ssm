@@ -26,6 +26,7 @@
 		<commons-fileupload.version>1.2.2</commons-fileupload.version>
 		<solrj.version>4.9.1</solrj.version>
 		<quartz.version>2.2.1</quartz.version>
+		<redis.version>2.9.0</redis.version>
 	</properties>
 	<dependencies>
 		<!-- 添加servlet3.0核心包 -->
@@ -263,6 +264,17 @@
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>3.3.0</version>
+		</dependency>
+		<!-- redis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${redis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.8.1.RELEASE</version>
 		</dependency>
 	</dependencies>
 	<build>
