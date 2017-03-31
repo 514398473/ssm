@@ -54,6 +54,21 @@
 		<!-- 加载mybatis的全局配置文件 -->
 		<property name="configLocation" value="classpath:SqlMapConfig.xml" />
 		<property name="mapperLocations" value="classpath*:com/xz/*/mapping/*.xml" />
+		<!-- Mybatis_PageHelper 分页插件配置 -->
+		<!-- <property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<value>
+							dialect=mysql
+							offsetAsPageNum=true
+							rowBoundsWithCount=true
+							reasonable=true
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property> -->
 	</bean>
 	<!-- 配置扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

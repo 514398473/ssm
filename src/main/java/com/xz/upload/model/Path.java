@@ -1,33 +1,39 @@
 package com.xz.upload.model;
 
-public class Path {
-    private Integer id;
+import com.xz.base.model.BaseModel;
 
-    private String path;
+public class Path extends BaseModel {
 
-    private String md5;
+	/**  */
+	private static final long serialVersionUID = 7426080273603808983L;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String path;
 
-    public String getPath() {
-        return path;
-    }
+	private String md5;
 
-    public void setPath(String path) {
-        this.path = path == null ? null : path.trim();
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getMd5() {
-        return md5;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setMd5(String md5) {
-        this.md5 = md5 == null ? null : md5.trim();
-    }
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path == null ? null : path.trim();
+	}
+
+	public String getMd5() {
+		return md5;
+	}
+
+	public void setMd5(String md5) {
+		this.md5 = md5 == null ? null : md5.trim();
+	}
 }

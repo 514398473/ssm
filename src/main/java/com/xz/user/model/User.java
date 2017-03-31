@@ -1,33 +1,39 @@
 package com.xz.user.model;
 
-public class User {
-    private Integer id;
+import com.xz.base.model.BaseModel;
 
-    private String username;
+public class User extends BaseModel {
+	
+	/**  */
+	private static final long serialVersionUID = -980314285028871072L;
 
-    private String password;
+	private Integer id;
 
-    public Integer getId() {
-        return id;
-    }
+	private String username;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String password;
 
-    public String getUsername() {
-        return username;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public void setUsername(String username) {
+		this.username = username == null ? null : username.trim();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
 }

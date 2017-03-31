@@ -1,43 +1,48 @@
 package com.xz.crawler.model;
 
-public class Html {
-    private Integer id;
+import com.xz.base.model.BaseModel;
 
-    private String title;
+public class Html extends BaseModel {
+	/**  */
+	private static final long serialVersionUID = -323690733453110332L;
 
-    private String url;
+	private Integer id;
 
-    private String content;
+	private String title;
 
-    public Integer getId() {
-        return id;
-    }
+	private String url;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String content;
 
-    public String getTitle() {
-        return title;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
+	public void setUrl(String url) {
+		this.url = url == null ? null : url.trim();
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content == null ? null : content.trim();
+	}
 }
