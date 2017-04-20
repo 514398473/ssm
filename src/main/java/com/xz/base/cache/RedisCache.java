@@ -3,12 +3,12 @@
  */
 package com.xz.base.cache;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
@@ -114,45 +114,26 @@ public class RedisCache implements Cache {
 	private JedisCluster createClient() {
 		try {
 			String configFile = "redis.properties";
-			// 以URL形式获取工程的资源文件 classpath 路径, 得到以file:/为开头的URL
-			// 例如返回: file:/D:/workspace/myproject01/WEB-INF/classes/
-			URL classPath = Thread.currentThread().getContextClassLoader().getResource("");
-			String proFilePath = classPath.toString();
-
-			// 移除开通的file:/六个字符
-			proFilePath = proFilePath.substring(6);
-
-			// 如果为window系统下,则把路径中的路径分隔符替换为window系统的文件路径分隔符
-			proFilePath = proFilePath.replace("/", java.io.File.separator);
-
-			// 兼容处理最后一个字符是否为 window系统的文件路径分隔符,同时建立 properties 文件路径
-			// 例如返回: D:\workspace\myproject01\WEB-INF\classes\config.properties
-			if (!proFilePath.endsWith(java.io.File.separator)) {
-				proFilePath = proFilePath + java.io.File.separator + configFile;
-			} else {
-				proFilePath = proFilePath + configFile;
-			}
-			String redis_host1 = PropertiesUtil.getValue(proFilePath, "redis_host1");
-			String redis_host2 = PropertiesUtil.getValue(proFilePath, "redis_host2");
-			String redis_host3 = PropertiesUtil.getValue(proFilePath, "redis_host3");
-			String redis_host4 = PropertiesUtil.getValue(proFilePath, "redis_host4");
-			String redis_host5 = PropertiesUtil.getValue(proFilePath, "redis_host5");
-			String redis_host6 = PropertiesUtil.getValue(proFilePath, "redis_host6");
-			String redis_port1 = PropertiesUtil.getValue(proFilePath, "redis_port1");
-			String redis_port2 = PropertiesUtil.getValue(proFilePath, "redis_port2");
-			String redis_port3 = PropertiesUtil.getValue(proFilePath, "redis_port3");
-			String redis_port4 = PropertiesUtil.getValue(proFilePath, "redis_port4");
-			String redis_port5 = PropertiesUtil.getValue(proFilePath, "redis_port5");
-			String redis_port6 = PropertiesUtil.getValue(proFilePath, "redis_port6");
+			String redis_host1 = PropertiesUtil.getValue(configFile, "redis_host1");
+			String redis_host2 = PropertiesUtil.getValue(configFile, "redis_host2");
+			String redis_host3 = PropertiesUtil.getValue(configFile, "redis_host3");
+			String redis_host4 = PropertiesUtil.getValue(configFile, "redis_host4");
+			String redis_host5 = PropertiesUtil.getValue(configFile, "redis_host5");
+			String redis_host6 = PropertiesUtil.getValue(configFile, "redis_host6");
+			String redis_port1 = PropertiesUtil.getValue(configFile, "redis_port1");
+			String redis_port2 = PropertiesUtil.getValue(configFile, "redis_port2");
+			String redis_port3 = PropertiesUtil.getValue(configFile, "redis_port3");
+			String redis_port4 = PropertiesUtil.getValue(configFile, "redis_port4");
+			String redis_port5 = PropertiesUtil.getValue(configFile, "redis_port5");
+			String redis_port6 = PropertiesUtil.getValue(configFile, "redis_port6");
 			// 创建一个JedisCluster对象
-			Set<HostAndPort> nodes;
-			nodes = new HashSet<>();
-			nodes.add(new HostAndPort(redis_host1, Integer.parseInt(redis_port1)));
-			nodes.add(new HostAndPort(redis_host2, Integer.parseInt(redis_port2)));
-			nodes.add(new HostAndPort(redis_host3, Integer.parseInt(redis_port3)));
-			nodes.add(new HostAndPort(redis_host4, Integer.parseInt(redis_port4)));
-			nodes.add(new HostAndPort(redis_host5, Integer.parseInt(redis_port5)));
-			nodes.add(new HostAndPort(redis_host6, Integer.parseInt(redis_port6)));
+			Set<HostAndPort> nodes = new HashSet<>();
+			nodes.add(new HostAndPort(StringUtils.isNotBlank(redis_host1) ? redis_host1 : "", StringUtils.isNotBlank(redis_port1) ? Integer.parseInt(redis_port1) : 0));
+			nodes.add(new HostAndPort(StringUtils.isNotBlank(redis_host2) ? redis_host2 : "", StringUtils.isNotBlank(redis_port2) ? Integer.parseInt(redis_port2) : 0));
+			nodes.add(new HostAndPort(StringUtils.isNotBlank(redis_host3) ? redis_host3 : "", StringUtils.isNotBlank(redis_port3) ? Integer.parseInt(redis_port3) : 0));
+			nodes.add(new HostAndPort(StringUtils.isNotBlank(redis_host4) ? redis_host4 : "", StringUtils.isNotBlank(redis_port4) ? Integer.parseInt(redis_port4) : 0));
+			nodes.add(new HostAndPort(StringUtils.isNotBlank(redis_host5) ? redis_host5 : "", StringUtils.isNotBlank(redis_port5) ? Integer.parseInt(redis_port5) : 0));
+			nodes.add(new HostAndPort(StringUtils.isNotBlank(redis_host6) ? redis_host6 : "", StringUtils.isNotBlank(redis_port6) ? Integer.parseInt(redis_port6) : 0));
 			// jedisCluster在系统中是单例的。
 			return new JedisCluster(nodes);
 		} catch (Exception e) {
