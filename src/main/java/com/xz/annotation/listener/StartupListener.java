@@ -35,7 +35,7 @@ public class StartupListener {
 	public void initAnnotation() {
 		try {
 			boolean flag = false;
-			String packages = PropertiesUtil.getValue("annotation.properties", "scan_path");
+			String packages = PropertiesUtil.getValue("properties/annotation.properties", "scan_path");
 			Set<String> findPackageAnnotationField = ScanPackages.findPackageAnnotationField(packages, GenerateGetAndSet.class);
 			for (String className : findPackageAnnotationField) {
 				Class<?> forName = Class.forName(className);

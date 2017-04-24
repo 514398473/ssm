@@ -113,7 +113,7 @@ public class RedisCache implements Cache {
 
 	private JedisCluster createClient() {
 		try {
-			String configFile = "redis.properties";
+			String configFile = "properties/redis.properties";
 			String redis_host1 = PropertiesUtil.getValue(configFile, "redis_host1");
 			String redis_host2 = PropertiesUtil.getValue(configFile, "redis_host2");
 			String redis_host3 = PropertiesUtil.getValue(configFile, "redis_host3");
