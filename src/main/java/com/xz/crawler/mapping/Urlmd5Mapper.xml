@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xz.crawler.dao.Urlmd5Mapper">
 	<!-- 启用缓存 -->
-	<cache type="com.xz.base.cache.RedisCache" />
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache>
+	<!-- <cache type="com.xz.base.cache.RedisCache" /> -->
 	<resultMap id="BaseResultMap" type="com.xz.crawler.model.Urlmd5">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="md5" property="md5" jdbcType="VARCHAR" />
@@ -21,7 +28,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -53,7 +61,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -152,7 +161,8 @@
 	<update id="updateByExample" parameterType="map">
 		update urlmd5
 		set id = #{record.id,jdbcType=INTEGER},
-		md5 = #{record.md5,jdbcType=VARCHAR}
+		md5 =
+		#{record.md5,jdbcType=VARCHAR}
 		<if test="_parameter != null">
 			<include refid="Update_By_Example_Where_Clause" />
 		</if>
@@ -168,7 +178,8 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.xz.crawler.model.Urlmd5">
 		update urlmd5
-		set md5 = #{md5,jdbcType=VARCHAR}
+		set
+		md5 = #{md5,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 </mapper>
