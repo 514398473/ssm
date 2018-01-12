@@ -312,7 +312,7 @@
 		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
-			<version>1.7</version>
+			<version>1.8</version>
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
@@ -331,6 +331,13 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.23</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opencv</groupId>
+			<artifactId>opencv</artifactId>
+			<version>2.4.13</version>
+			<systemPath>D:\opencv\build\java\opencv-2413.jar</systemPath>
+			<scope>system</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -371,8 +378,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 					<compilerArguments>
 						<verbose />
