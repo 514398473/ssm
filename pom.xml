@@ -15,7 +15,7 @@
 		<pagehelper.version>5.0.0</pagehelper.version>
 		<mysql.version>5.1.34</mysql.version>
 		<slf4j.version>1.7.9</slf4j.version>
-		<jackson.version>2.8.1</jackson.version>
+		<jackson.version>2.12.3</jackson.version>
 		<druid.version>1.0.9</druid.version>
 		<httpclient.version>4.5.3</httpclient.version>
 		<jstl.version>1.2</jstl.version>
